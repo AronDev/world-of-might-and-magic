@@ -97,8 +97,7 @@ bool Localization::Initialize() {
 }
 
 void Localization::InitializeSpellNames() {
-    this->spell_names[0] =
-        this->localization_strings[202];  // Protection from Air
+    this->spell_names[0] = this->localization_strings[202];  // Protection from Air
     this->spell_names[1] = this->localization_strings[204];
     this->spell_names[2] = this->localization_strings[219];
     this->spell_names[3] = this->localization_strings[215];
@@ -118,14 +117,12 @@ void Localization::InitializeSpellNames() {
     this->spell_names[17] = this->localization_strings[194];
     this->spell_names[18] = this->localization_strings[456];
     this->spell_names[19] = this->localization_strings[453];
-    this->spell_names[20] =
-        this->localization_strings[202];  // Protection from Air
+    this->spell_names[20] = this->localization_strings[202];  // Protection from Air
     this->spell_names[21] = this->localization_strings[443];
     this->spell_names[22] = this->localization_strings[204];
     this->spell_names[23] = this->localization_strings[208];
     this->spell_names[24] = this->localization_strings[221];
-    this->spell_names[25] =
-        this->localization_strings[24];  // Protection from Fire
+    this->spell_names[25] = this->localization_strings[24];  // Protection from Fire
     this->spell_names[26] = this->localization_strings[228];
     this->spell_names[27] = this->localization_strings[441];
     this->spell_names[28] = this->localization_strings[440];
@@ -135,14 +132,12 @@ void Localization::InitializeSpellNames() {
     this->spell_names[32] = this->localization_strings[234];
     this->spell_names[33] = this->localization_strings[279];
     this->spell_names[34] = this->localization_strings[442];
-    this->spell_names[35] =
-        this->localization_strings[235];  // Temporary Accuracy
+    this->spell_names[35] = this->localization_strings[235];  // Temporary Accuracy
     this->spell_names[36] = this->localization_strings[246];
     this->spell_names[37] = this->localization_strings[247];
     this->spell_names[38] = this->localization_strings[248];
     this->spell_names[39] = this->localization_strings[674];
-    this->spell_names[40] =
-        this->localization_strings[249];  // Temporary Willpower
+    this->spell_names[40] = this->localization_strings[249];  // Temporary Willpower
     this->spell_names[41] = this->localization_strings[258];
     this->spell_names[42] = this->localization_strings[194];
     this->spell_names[43] = this->localization_strings[657];  // Water Breathing
@@ -151,8 +146,7 @@ void Localization::InitializeSpellNames() {
 void Localization::InitializeNpcProfessionNames() {
     this->npc_profession_names[0] = this->localization_strings[153];  // Nothing
     this->npc_profession_names[1] = this->localization_strings[308];  // smith
-    this->npc_profession_names[2] =
-        this->localization_strings[309];  // armsmaster
+    this->npc_profession_names[2] = this->localization_strings[309];  // armsmaster
     this->npc_profession_names[3] = this->localization_strings[7];  // alchemist
     this->npc_profession_names[4] = this->localization_strings[306];
     this->npc_profession_names[5] = this->localization_strings[310];
@@ -218,25 +212,17 @@ void Localization::InitializeCharacterConditionNames() {
     this->character_conditions[3] = this->localization_strings[4];    // Fear
     this->character_conditions[4] = this->localization_strings[69];   // Drunk
     this->character_conditions[5] = this->localization_strings[117];  // Insane
-    this->character_conditions[6] =
-        this->localization_strings[166];                             // Poisoned
+    this->character_conditions[6] = this->localization_strings[166];  // Poisoned
     this->character_conditions[7] = this->localization_strings[65];  // Diseased
-    this->character_conditions[8] =
-        this->localization_strings[166];                             // Poisoned
+    this->character_conditions[8] =this->localization_strings[166];  // Poisoned
     this->character_conditions[9] = this->localization_strings[65];  // Diseased
-    this->character_conditions[10] =
-        this->localization_strings[166];  // Poisoned
-    this->character_conditions[11] =
-        this->localization_strings[65];  // Diseased
-    this->character_conditions[12] =
-        this->localization_strings[162];  // Paralyzed
-    this->character_conditions[13] =
-        this->localization_strings[231];  // Unconcious
+    this->character_conditions[10] = this->localization_strings[166];  // Poisoned
+    this->character_conditions[11] = this->localization_strings[65];  // Diseased
+    this->character_conditions[12] = this->localization_strings[162];  // Paralyzed
+    this->character_conditions[13] = this->localization_strings[231];  // Unconscious
     this->character_conditions[14] = this->localization_strings[58];  // Dead
-    this->character_conditions[15] =
-        this->localization_strings[220];  // Pertified
-    this->character_conditions[16] =
-        this->localization_strings[76];  // Eradicated
+    this->character_conditions[15] = this->localization_strings[220];  // Petrified
+    this->character_conditions[16] = this->localization_strings[76];  // Eradicated
     this->character_conditions[17] = this->localization_strings[601];  // Zombie
     this->character_conditions[18] = this->localization_strings[98];   // Good
 }
@@ -365,12 +351,9 @@ void Localization::InitializeMm6ItemCategories() {
     this->mm6_item_categories[7] = this->localization_strings[277];  // Mace
     this->mm6_item_categories[8] = this->localization_strings[278];  // Blaster
     this->mm6_item_categories[9] = this->localization_strings[279];  // Shield
-    this->mm6_item_categories[10] =
-        this->localization_strings[280];  // Leather armour
-    this->mm6_item_categories[11] =
-        this->localization_strings[281];  // Chainmail
-    this->mm6_item_categories[12] =
-        this->localization_strings[282];  // Plate armour
+    this->mm6_item_categories[10] = this->localization_strings[280];  // Leather armour
+    this->mm6_item_categories[11] = this->localization_strings[281];  // Chainmail
+    this->mm6_item_categories[12] = this->localization_strings[282];  // Plate armour
     this->mm6_item_categories[13] = this->localization_strings[143];  // Other
 }
 

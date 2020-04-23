@@ -349,7 +349,7 @@ void Localization::InitializeClassNames() {
         char *test_string = strtok(NULL, "\r") + 1;
         auto tokens = Tokenize(test_string, '\t');
         Assert(tokens.size() == 3, "Invalid number of tokens");
-        class_desciptions[i] = RemoveQuotes(tokens[1]);
+        class_descriptions[i] = RemoveQuotes(tokens[1]);
     }
 }
 

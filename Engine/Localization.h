@@ -37,7 +37,7 @@ class Localization {
     }
 
     const char *GetClassDescription(unsigned int index) const {
-        return this->class_desciptions[index];
+        return this->class_descriptions[index];
     }
 
     const char *GetAttirubteName(unsigned int index) const {
@@ -123,7 +123,7 @@ class Localization {
     const char *spell_school_names[9];
     const char *spell_names[44];
     const char *class_names[36];
-    const char *class_desciptions[36];
+    const char *class_descriptions[36];
     const char *attribute_names[7];
     const char *attribute_descriptions[7];
     const char *skill_names[38];

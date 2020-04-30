@@ -494,163 +494,158 @@ void Localization::InitializeMoonPhaseNames() {
 }
 
 /*
-enum GLOBAL_LOCALIZ_INDEX
-{
-    LOCSTR_AC = 0,		//"AC"
-    LOCSTR_ACCURACY = 1,		//"Accuracy"
-    LOCSTR_BLK_KNIGHT = 2,		//"Black Knight"
-    LOCSTR_SPY = 3,		// "Spy"
+enum GLOBAL_LOCALIZ_INDEX {
+    LOCSTR_AC = 0, //"AC"
+    LOCSTR_ACCURACY = 1, // "Accuracy"
+    LOCSTR_BLK_KNIGHT = 2, // "Black Knight"
+    LOCSTR_SPY = 3, // "Spy"
 
     LOCSTR_TOWN_PORTAL = 10, // "Town Portal"
 
-    LOCSTR_ASSASIN = 13,	// "Assassin"
+    LOCSTR_ASSASIN = 13, // "Assassin"
 
-    LOCSTR_AUTOSAVE = 16,	// "Autosave"
+    LOCSTR_AUTOSAVE = 16, // "Autosave"
 
     LOCSTR_ATTACK = 18, // "Attack"
-    LOCSTR_AVAILABLE = 19, //"Available"
+    LOCSTR_AVAILABLE = 19, // "Available"
 
-    LOCSTR_MONK = 21, //"Monk"
+    LOCSTR_MONK = 21, // "Monk"
 
-    LOCSTR_AVARDS_FOR = 23, //"Awards for"
-
-
-    LOCSTR_RANGER = 31, //"Ranger"
-
-    LOCSTR_CANCEL = 34, //"Cancel"
+    LOCSTR_AVARDS_FOR = 23, // "Awards for"
 
 
-    LOCSTR_SELECT_TGT = 39,	 ///"Select Target"
+    LOCSTR_RANGER = 31, // "Ranger"
 
-    LOCSTR_CLASS = 41,	// "Class"
+    LOCSTR_CANCEL = 34, // "Cancel"
 
-    LOCSTR_CONDITION = 47,	//"Condition"
 
-    LOCSTR_CREATE_PARTY = 51,   //"C R E A T E   P A R T Y"
+    LOCSTR_SELECT_TGT = 39, // "Select Target"
 
-    LOCSTR_DAWN = 55, //"Dawn"
-    LOCSTR_DAY = 56,	//"Day"
-    LOCSTR_DAYS = 57,	/// "Days"
+    LOCSTR_CLASS = 41, // "Class"
 
-    LOCSTR_PRESS_ESCAPE = 61,	// "Press Escape"
+    LOCSTR_CONDITION = 47, // "Condition"
 
-    LOCSTR_TROUBLE_LOAD = 63,//"Might and Magic VII is having trouble loading
-files.
-                             // Please re-install to fix this problem. Note:
-Re-installing will not destroy your save games." LOCSTR_DETAIL_TOGGLE = 64,
-//"Detail Toggle"
+    LOCSTR_CREATE_PARTY = 51, // "C R E A T E   P A R T Y"
 
-    LOCSTR_DMG = 66,	 /// "Dmg"
+    LOCSTR_DAWN = 55, // "Dawn"
+    LOCSTR_DAY = 56, // "Day"
+    LOCSTR_DAYS = 57, // "Days"
+
+    LOCSTR_PRESS_ESCAPE = 61, // "Press Escape"
+
+    LOCSTR_TROUBLE_LOAD = 63, // "Might and Magic VII is having trouble loading files. Please re-install to fix this problem. Note: Re-installing will not destroy your save games."
+    LOCSTR_DETAIL_TOGGLE = 64, //"Detail Toggle"
+
+    LOCSTR_DMG = 66, // "Dmg"
 
     LOCSTR_EMPTY = 72, // "Empty"
 
-    LOCSTR_EXIT = 79,	// "Exit"
-    LOCSTR_EXIT_BLDNG = 80,   // "Exit Building"
+    LOCSTR_EXIT = 79, // "Exit"
+    LOCSTR_EXIT_BLDNG = 80,  // "Exit Building"
 
-    LOCSTR_EXPIRIENCE = 83, //"Experience"
+    LOCSTR_EXPIRIENCE = 83, // "Experience"
 
     LOCSTR_GRAND = 96,	// "Grand"
 
     LOCSTR_HP = 107,	// "HP"
     LOCSTR_HIT_POINTS = 108,	// "Hit Points"
-    LOCSTR_HOUR = 109,	//"Hour"
-    LOCSTR_HOURS = 110, //"Hours"
+    LOCSTR_HOUR = 109,	// "Hour"
+    LOCSTR_HOURS = 110, // "Hours"
 
-    LOCSTR_ROGUE = 114,	 //"Rogue"
+    LOCSTR_ROGUE = 114,	 // "Rogue"
 
-    LOCSTR_LEVEL = 131,   // "Level"
+    LOCSTR_LEVEL = 131,  // "Level"
 
-    LOCSTR_LOADING = 135,  //"Loading"
+    LOCSTR_LOADING = 135, // "Loading"
 
-    LOCSTR_MIGHT = 144,	 //"Might"
+    LOCSTR_MIGHT = 144,	 // "Might"
 
-    LOCSTR_NAME = 149,	// "Name"
+    LOCSTR_NAME = 149, // "Name"
 
     LOCSTR_YOU_TO_TRAIN = 147, // "You are eligible to train to %u."
 
-    LOCSTR_STAY_IN_AREA = 156,  //"Stay in this Area"
-    LOCSTR_3DO_COPYRHT = 157,	  // ""© 1999 The 3DO Company.
+    LOCSTR_STAY_IN_AREA = 156, // "Stay in this Area"
+    LOCSTR_3DO_COPYRHT = 157, // "© 1999 The 3DO Company."
 
-    LOCSTR_PLEASE_WAIT = 165,	// "Please Wait"
+    LOCSTR_PLEASE_WAIT = 165, // "Please Wait"
 
-    LOCSTR_REPUTATION = 180,	 //"Reputation"
+    LOCSTR_REPUTATION = 180, // "Reputation"
 
-    LOCSTR_REST_HEAL_8 = 183, //"Rest & Heal 8 Hours"
+    LOCSTR_REST_HEAL_8 = 183, // "Rest & Heal 8 Hours"
 
     LOCSTR_TIME_ERATHIA = 186, // "Time in Erathia"
 
-    LOCSTR_SAVING = 190,  // "Saving"
+    LOCSTR_SAVING = 190, // "Saving"
 
-    LOCSTR_SKILL_POINTS = 207, /// "Skill Points"
+    LOCSTR_SKILL_POINTS = 207, // "Skill Points"
 
-    LOCSTR_KNIGHT = 253,  //"Knight"
-    LOCSTR_CAVALIER = 254,  //"Cavalier"
-    LOCSTR_CHAMPION = 255,  //"Champion"
-    LOCSTR_CLERIC = 256,  //"Cleric"
-    LOCSTR_PRIEST = 257,  //"Priest"
+    LOCSTR_KNIGHT = 253, // "Knight"
+    LOCSTR_CAVALIER = 254, // "Cavalier"
+    LOCSTR_CHAMPION = 255, // "Champion"
+    LOCSTR_CLERIC = 256, // "Cleric"
+    LOCSTR_PRIEST = 257, // "Priest"
 
-    LOCSTR_SORCERER = 259,  // "Sorcerer"
+    LOCSTR_SORCERER = 259, // "Sorcerer"
 
     LOCSTR_PALADIN = 262, // "Paladin"
 
-    LOCSTR_ARCHER = 265,   /// "Archer"
+    LOCSTR_ARCHER = 265, // "Archer"
 
     LOCSTR_DRUID = 268, // "Druid"
 
-    LOCSTR_THIEF = 307, //"Thief"
+    LOCSTR_THIEF = 307, // "Thief"
 
     LOCSTR_SET_BEACON = 375, // "Set Beacon"
 
-    LOCSTR_HATED = 379,// "Hated"
+    LOCSTR_HATED = 379, // "Hated"
 
-    LOCSTR_UNFRENDLY = 392,	 //"Unfriendly"
+    LOCSTR_UNFRENDLY = 392,	// "Unfriendly"
 
-    LOCSTR_NEITRAL = 399,  // "Neutral"
+    LOCSTR_NEITRAL = 399, // "Neutral"
 
     LOCSTR_FRENDLY = 402, // "Friendly"
 
-    LOCSTR_D_DAYS_TO_S = 404,   //"%d days to %s"
-    LOCSTR_TRAVEL_COST = 405,    //"Travel Cost %d gold"
+    LOCSTR_D_DAYS_TO_S = 404, // "%d days to %s"
+    LOCSTR_TRAVEL_COST = 405, // "Travel Cost %d gold"
 
     LOCSTR_ENTER_S = 411, // "Enter %s"
 
     LOCSTR_IS_IN_NO_COND = 427,	// "%s is in no condition to %s"
 
-    LOCSTR_S_THE_S = 429,    //"%s the %s"
+    LOCSTR_S_THE_S = 429, // "%s the %s"
 
-    LOCSTR_NORMAL = 431,	//"Normal"
-    LOCSTR_MASTER = 432,	//"Master"
-    LOCSTR_EXPERT = 433,	//"Expert"
-    LOCSTR_LIKED = 434, //"Liked"
+    LOCSTR_NORMAL = 431, // "Normal"
+    LOCSTR_MASTER = 432, // "Master"
+    LOCSTR_EXPERT = 433, // "Expert"
+    LOCSTR_LIKED = 434, // "Liked"
 
-    LOCSTR_ACTIVE_SPELL = 450,	// "Active Spells: %s"
+    LOCSTR_ACTIVE_SPELL = 450, // "Active Spells: %s"
 
-    LOCSTR_READING = 505, ///"Reading..."
+    LOCSTR_READING = 505, // "Reading..."
 
     LOCSTR_NOTHING_HERE = 521, // "Nothing here"
 
     LOCSTR_SP_COST = 522, //"SP Cost"
     LOCSTR_RECALL_BEACON = 523, // "Recall Beacon"
 
-    LOCSTR_TIME = 526,	//"Time"
+    LOCSTR_TIME = 526, // "Time"
 
-    LOCSTR_NEED_MORE_EXP = 538, //"You need %d more experience to train to level
-%d"
+    LOCSTR_NEED_MORE_EXP = 538, // "You need %d more experience to train to level %d"
 
     LOCSTR_IDENT_ITEM = 541, // "Identify Items"
 
-    LOCSTR_DUSK = 566,   //"Dusk"
-    LOCSTR_NIGHT = 567,  // "Night"
+    LOCSTR_DUSK = 566, // "Dusk"
+    LOCSTR_NIGHT = 567, // "Night"
 
-    LOCSTR_NO_SAVING = 583,	//"No saving in the Arena"
+    LOCSTR_NO_SAVING = 583,	// "No saving in the Arena"
 
     LOCSTR_AUTOSAVE_MM7 = 613, // "AutoSave.MM7"
 
-    LOCSTR_BONUS = 623, //"Bonus"
+    LOCSTR_BONUS = 623, // "Bonus"
 
-    LOCSTR_GAME_SAVED = 656,	// "Game Saved!"
+    LOCSTR_GAME_SAVED = 656, // "Game Saved!"
 
-    MAX_LOC_STRINGS = 677
+    MAX_LOC_STRINGS = 677,
 
 };*/
 

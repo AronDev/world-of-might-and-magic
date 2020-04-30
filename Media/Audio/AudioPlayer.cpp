@@ -122,7 +122,7 @@ void AudioPlayer::MusicPlayTrack(MusicID eTrack) {
         String file_path = StringPrintf("Music%s%d.mp3", OS_GetDirSeparator().c_str(), eTrack);
         file_path = MakeDataPath(file_path.c_str());
         if (!FileExists(file_path.c_str())) {
-            logger->Warning(L"Music%s%d.mp3 not found (%s)", OS_GetDirSeparator().c_str(), eTrack);
+            logger->Warning("Music%s%d.mp3 not found (%s)", OS_GetDirSeparator().c_str(), eTrack);
             return;
         }
 
@@ -194,13 +194,17 @@ void AudioPlayer::StopAll(int sample_id) {
 }
 
 void AudioPlayer::PlaySound(SoundID eSoundID, int pid, unsigned int uNumRepeats, int source_x, int source_y, int sound_data_id) {
+    // logger->Warning(L"-------Trying to load sound \"%i\"--------", eSoundID);
+
+    if (eSoundID == 206) __debugbreak();
+
     if (!bPlayerReady || engine->config->sound_level < 1 ||
         (eSoundID == SOUND_Invalid)) {
         return;
     }
 
     if (mapSounds.find(eSoundID) == mapSounds.end()) {
-        logger->Warning(L"SoundID = %u not found", eSoundID);
+        logger->Warning("SoundID = %u not found", eSoundID);
         return;
     }
 
@@ -210,19 +214,20 @@ void AudioPlayer::PlaySound(SoundID eSoundID, int pid, unsigned int uNumRepeats,
         PMemBuffer buffer;
 
         if (si.sName == "") {  // enable this for bonus sound effects
-            // logger->Warning(L"Trying to load sound \"%i\"", eSoundID);
+            // logger->Warning("Trying to load sound \"%i\"", eSoundID);
             // buffer = LoadSound(int(eSoundID));
         } else {
             buffer = LoadSound(si.sName);
         }
 
         if (!buffer) {
-            logger->Warning(L"Failed to load sound \"%S\"", si.sName.c_str());
+            logger->Warning("Failed to load sound \"%s\"", si.sName.c_str());
             return;
         }
 
         si.sample = CreateAudioSample(buffer);
         if (!si.sample) {
+            logger->Warning("Failed to load - createaudiosample");
             return;
         }
     }
@@ -236,11 +241,11 @@ void AudioPlayer::PlaySound(SoundID eSoundID, int pid, unsigned int uNumRepeats,
 
     if (pid == 0) {  // generic sound like from UI
         si.sample->Play();
-        return;
+        // return;
     } else if (pid == -1) {  // exclusive sounds - can override
         si.sample->Stop();
         si.sample->Play();
-        return;
+        // return;
     } else if (pid < 0) {  // exclusive sounds - no override (close chest)
         si.sample->Play();
     } else {
@@ -260,13 +265,15 @@ void AudioPlayer::PlaySound(SoundID eSoundID, int pid, unsigned int uNumRepeats,
 
                 si.sample->Play(false, true);
 
-                return;
+               // return;
+                break;
             }
             case OBJECT_Player: {
                 si.sample->SetVolume((2.f * pSoundVolumeLevels[engine->config->voice_level]));
                 if (object_id == 5) si.sample->Stop();
                 si.sample->Play();
-                return;
+               // return;
+                break;
             }
             case OBJECT_Actor: {
                 assert(object_id < uNumActors);
@@ -279,7 +286,8 @@ void AudioPlayer::PlaySound(SoundID eSoundID, int pid, unsigned int uNumRepeats,
                                        pActors[object_id].vPosition.z / 50.f, 500.f);
 
                 si.sample->Play(false, true);
-                return;
+               // return;
+                break;
             }
             case OBJECT_Decoration: {
                 assert(object_id < pLevelDecorations.size());
@@ -292,7 +300,8 @@ void AudioPlayer::PlaySound(SoundID eSoundID, int pid, unsigned int uNumRepeats,
                                        (float)pLevelDecorations[object_id].vPosition.z / 50.f, 2000.f);
 
                 si.sample->Play(true, true);
-                return;
+               // return;
+                break;
             }
             case OBJECT_Item: {
                 assert(object_id < uNumSpriteObjects);
@@ -305,17 +314,23 @@ void AudioPlayer::PlaySound(SoundID eSoundID, int pid, unsigned int uNumRepeats,
                                        pSpriteObjects[object_id].vPosition.z / 50.f, 500.f);
 
                 si.sample->Play(false, true);
-                return;
+               // return;
+                break;
             }
             case OBJECT_BModel: {
                 si.sample->Play();
-                return;
+                // return;
+                break;
             }
 
             default:
-                assert(false);
+                // assert(false);
+                break;
         }
     }
+
+    // logger->Warning(L"-------END Trying to load sound \"%i\"--------", eSoundID);
+    return;
 }
 
 void AudioPlayer::MessWithChannels() { pAudioPlayer->StopChannels(-1, -1); }
@@ -346,7 +361,7 @@ void AudioPlayer::LoadAudioSnd() {
     std::string file_path = "Sounds" + OS_GetDirSeparator() + "Audio.snd";
     fAudioSnd.open(MakeDataPath(file_path.c_str()), std::ios_base::binary);
     if (!fAudioSnd.good()) {
-        logger->Warning(L"Can't open file: %s", file_path.c_str());
+        logger->Warning("Can't open file: %s", file_path.c_str());
         return;
     }
 
@@ -425,7 +440,7 @@ PMemBuffer AudioPlayer::LoadSound(int uSoundID) {  // bit of a kludge (load soun
         if (header.uDecompressedSize) {
             fAudioSnd.read((char*)buffer->GetData(), header.uDecompressedSize);
         } else {
-            logger->Warning(L"Can't load sound file!");
+            logger->Warning("Can't load sound file!");
         }
     } else {
         PMemBuffer compressed = AllocMemBuffer(header.uCompressedSize);
@@ -440,6 +455,7 @@ PMemBuffer AudioPlayer::LoadSound(int uSoundID) {  // bit of a kludge (load soun
 PMemBuffer AudioPlayer::LoadSound(const std::string &pSoundName) {
     SoundHeader header = { 0 };
     if (!FindSound(pSoundName, &header)) {
+        logger->Warning("Can't load sound header!");
         return nullptr;
     }
 
@@ -451,7 +467,7 @@ PMemBuffer AudioPlayer::LoadSound(const std::string &pSoundName) {
         if (header.uDecompressedSize) {
             fAudioSnd.read((char*)buffer->GetData(), header.uDecompressedSize);
         } else {
-            logger->Warning(L"Can't load sound file!");
+            logger->Warning("Can't load sound file!");
         }
     } else {
         PMemBuffer compressed = AllocMemBuffer(header.uCompressedSize);

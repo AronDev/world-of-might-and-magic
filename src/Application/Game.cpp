@@ -112,7 +112,7 @@ void Game::Run() {
 
     dword_6BE364_game_settings_1 |= GAME_SETTINGS_4000;
 
-    // logger->Warning(L"MM: entering main loop");
+    // logger->Warning("MM: entering main loop");
     while (true) {
         GUIWindow_MainMenu::Loop();
         uGameState = GAME_STATE_PLAYING;
@@ -135,7 +135,6 @@ bool Game::Loop() {
     while (1) {
         if (uGameState == GAME_FINISHED ||
             GetCurrentMenuID() == MENU_EXIT_GAME) {
-            engine->Deinitialize();
             return false;
         } else if (GetCurrentMenuID() == MENU_SAVELOAD) {
             MainMenuLoad_Loop();
@@ -1772,6 +1771,7 @@ void Game::EventLoop() {
                         if (!v90)
                             v90 = rand() % (signed int)pMapStats->uNumMaps + 1;
                         pMapInfo = &pMapStats->pInfos[v90];
+
                         if (rand() % 100 + 1 <= pMapInfo->Encounter_percent) {
                             v91 = rand() % 100;
                             v92 = pMapInfo->EncM1percent;
@@ -1783,9 +1783,10 @@ void Game::EventLoop() {
                                                 2);
                             else
                                 pNPCData4 = (NPCData *)1;
-                            if (!_45063B_spawn_some_monster(pMapInfo,
-                                                            (int)pNPCData4))
+
+                            if (!SpawnEncounterMonsters(pMapInfo, (int)pNPCData4))
                                 pNPCData4 = 0;
+
                             if (pNPCData4) {
                                 pPlayerNum = rand() % 4;
                                 pParty->pPlayers[pPlayerNum]

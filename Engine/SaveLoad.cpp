@@ -78,11 +78,12 @@ void LoadGame(unsigned int uSlot) {
     MapsLongTimers_count = 0;
     if (!pSavegameUsedSlots[uSlot]) {
         pAudioPlayer->PlaySound(SOUND_error, 0, 0, -1, 0, 0);
-        logger->Warning(L"LoadGame: slot %u is empty", uSlot);
+        logger->Warning("LoadGame: slot %u is empty", uSlot);
         return;
     }
 
     pNew_LOD->CloseWriteFile();
+    // uCurrentlyLoadedLevelType = LEVEL_null;
 
     String filename = "saves/" + pSavegameList->pFileList[uSlot];
     filename = MakeDataPath(filename.c_str());
@@ -97,13 +98,13 @@ void LoadGame(unsigned int uSlot) {
     static_assert(sizeof(SavegameHeader) == 100, "Wrong type size");
     SavegameHeader *header = (SavegameHeader*)pNew_LOD->LoadRaw("header.bin");
     if (header == nullptr) {
-        logger->Warning(L"%S", localization->FormatString(612, 100).c_str());  // Savegame damaged! Code=%d
+        logger->Warning(localization->FormatString(612, 100).c_str());  // Savegame damaged! Code=%d
     }
 
     {
         Party_Image_MM7 *serialization = (Party_Image_MM7*)pNew_LOD->LoadRaw("party.bin");
         if (serialization == nullptr) {
-            logger->Warning(L"%S", localization->FormatString(612, 101).c_str());  // Savegame damaged! Code=%d
+            logger->Warning(localization->FormatString(612, 101).c_str());  // Savegame damaged! Code=%d
         } else {
             serialization->Deserialize(pParty);
             free(serialization);
@@ -126,7 +127,7 @@ void LoadGame(unsigned int uSlot) {
     {
         Timer_Image_MM7 *serialization = (Timer_Image_MM7*)pNew_LOD->LoadRaw("clock.bin");
         if (serialization == nullptr) {
-            logger->Warning(L"%S", localization->FormatString(612, 102).c_str());  // Savegame damaged! Code=%d
+            logger->Warning(localization->FormatString(612, 102).c_str());  // Savegame damaged! Code=%d
         } else {
             serialization->Deserialize(pEventTimer);
             free(serialization);
@@ -136,7 +137,7 @@ void LoadGame(unsigned int uSlot) {
     {
         OtherOverlayList_Image_MM7 *serialization = (OtherOverlayList_Image_MM7*)pNew_LOD->LoadRaw("overlay.bin");
         if (serialization == nullptr) {
-            logger->Warning(L"%S", localization->FormatString(612, 103).c_str());  // Savegame damaged! Code=%d
+            logger->Warning(localization->FormatString(612, 103).c_str());  // Savegame damaged! Code=%d
         } else {
             serialization->Deserialize(pOtherOverlayList);
             free(serialization);
@@ -146,7 +147,7 @@ void LoadGame(unsigned int uSlot) {
     {
         NPCData_Image_MM7 *serialization = (NPCData_Image_MM7*)pNew_LOD->LoadRaw("npcdata.bin");
         if (serialization == nullptr) {
-            logger->Warning(L"%S", localization->FormatString(612, 104).c_str());  // Savegame damaged! Code=%d
+            logger->Warning(localization->FormatString(612, 104).c_str());  // Savegame damaged! Code=%d
         } else {
             for (unsigned int i = 0; i < 501; ++i) {
                 serialization[i].Deserialize(pNPCStats->pNewNPCData + i);
@@ -159,10 +160,10 @@ void LoadGame(unsigned int uSlot) {
     {
         void *npcgroup = pNew_LOD->LoadRaw("npcgroup.bin");
         if (npcgroup == nullptr) {
-            logger->Warning(L"%S", localization->FormatString(612, 105).c_str());  // Savegame damaged! Code=%d
+            logger->Warning(localization->FormatString(612, 105).c_str());  // Savegame damaged! Code=%d
             __debugbreak();
         } else if (sizeof(pNPCStats->pGroups_copy) != 102) {
-            logger->Warning(L"NPCStats: deserialization warning");
+            logger->Warning("NPCStats: deserialization warning");
         } else {
             memcpy(pNPCStats->pGroups_copy, npcgroup, sizeof(pNPCStats->pGroups_copy));
         }
@@ -290,7 +291,7 @@ void SaveGame(bool IsAutoSAve, bool NotSaveWorld) {
 
     if (pNew_LOD->Write("image.pcx", uncompressed_buff, buf_size, 0)) {
         auto error_message = localization->FormatString(612, 200);  // Savegame damaged! Code=%d
-        logger->Warning(L"%S", error_message.c_str());
+        logger->Warning(error_message.c_str());
     }
 
     static_assert(sizeof(SavegameHeader) == 100, "Wrong type size");
@@ -302,7 +303,7 @@ void SaveGame(bool IsAutoSAve, bool NotSaveWorld) {
     save_header.playing_time = pParty->GetPlayingTime();
     if (pNew_LOD->Write("header.bin", &save_header, sizeof(SavegameHeader), 0)) {
         auto error_message = localization->FormatString(612, 201);
-        logger->Warning(L"%S", error_message.c_str());
+        logger->Warning(error_message.c_str());
     }
 
     {
@@ -311,7 +312,7 @@ void SaveGame(bool IsAutoSAve, bool NotSaveWorld) {
 
         if (pNew_LOD->Write("party.bin", &serialization, sizeof(serialization), 0)) {
             auto error_message = localization->FormatString(612, 202);
-            logger->Warning(L"%S", error_message.c_str());
+            logger->Warning(error_message.c_str());
         }
     }
 
@@ -321,7 +322,7 @@ void SaveGame(bool IsAutoSAve, bool NotSaveWorld) {
 
         if (pNew_LOD->Write("clock.bin", &serialization, sizeof(serialization), 0)) {
             auto error_message = localization->FormatString(612, 203);
-            logger->Warning(L"%S", error_message.c_str());
+            logger->Warning(error_message.c_str());
         }
     }
 
@@ -331,7 +332,7 @@ void SaveGame(bool IsAutoSAve, bool NotSaveWorld) {
 
         if (pNew_LOD->Write("overlay.bin", &serialization, sizeof(serialization), 0)) {
             auto error_message = localization->FormatString(612, 204);
-            logger->Warning(L"%S", error_message.c_str());
+            logger->Warning(error_message.c_str());
         }
     }
 
@@ -343,13 +344,13 @@ void SaveGame(bool IsAutoSAve, bool NotSaveWorld) {
 
         if (pNew_LOD->Write("npcdata.bin", serialization, sizeof(serialization), 0)) {
             auto error_message = localization->FormatString(612, 205);
-            logger->Warning(L"%S", error_message.c_str());
+            logger->Warning(error_message.c_str());
         }
     }
 
     if (pNew_LOD->Write("npcgroup.bin", pNPCStats->pGroups_copy, sizeof(pNPCStats->pGroups_copy), 0)) {
         auto error_message = localization->FormatString(612, 206);
-        logger->Warning(L"%S", error_message.c_str());
+        logger->Warning(error_message.c_str());
     }
 
     for (size_t i = 0; i < 4; ++i) {  // 4 - players
@@ -369,7 +370,7 @@ void SaveGame(bool IsAutoSAve, bool NotSaveWorld) {
                 String str = StringPrintf("lloyd%d%d.pcx", i + 1, j + 1);
                 if (pNew_LOD->Write(str, pcx_data, pcx_data_size, 0)) {
                     auto error_message = localization->FormatString(612, 207);
-                    logger->Warning(L"%S", error_message.c_str());
+                    logger->Warning(error_message.c_str());
                 }
                 free(pcx_data);
             }
@@ -380,7 +381,7 @@ void SaveGame(bool IsAutoSAve, bool NotSaveWorld) {
         CompactLayingItemsList();
         char *compressed_buf = (char *)malloc(1000000);
         if (compressed_buf == nullptr) {
-            logger->Warning(L"Malloc error");
+            logger->Warning("Malloc error");
             Error("Malloc");  // is this recoverable
         }
         ODMHeader *odm_data = (ODMHeader*)compressed_buf;
@@ -489,7 +490,7 @@ void SaveGame(bool IsAutoSAve, bool NotSaveWorld) {
         file_name[pos + 1] = 'd';
         if (pNew_LOD->Write(file_name, compressed_buf, compressed_block_size + sizeof(ODMHeader), 0)) {
             auto error_message = localization->FormatString(612, 208);
-            logger->Warning(L"%S", error_message.c_str());
+            logger->Warning(error_message.c_str());
         }
         free(compressed_buf);
     }
@@ -497,7 +498,7 @@ void SaveGame(bool IsAutoSAve, bool NotSaveWorld) {
 
     if (IsAutoSAve) {
         if (!CopyFile(MakeDataPath("data/new.lod"), MakeDataPath("saves/autosave.mm7"))) {
-            logger->Warning(L"Copy autosave.mm7 failed");
+            logger->Warning("Copy autosave.mm7 failed");
         }
     }
     pParty->vPosition.x = pPositionX;

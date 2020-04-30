@@ -176,7 +176,7 @@ void Engine::Draw() {
     // pIndoorCamera->Initialize2();
     pIndoorCameraD3D->CalculateRotations(pParty->sRotationX, pParty->sRotationY);
     pIndoorCameraD3D->CreateWorldMatrixAndSomeStuff();
-    pIndoorCameraD3D->_4374E8_ProllyBuildFrustrum();
+    pIndoorCameraD3D->BuildViewFrustum();
 
     if (pMovie_Track) {
         /*if ( !render->pRenderD3D )
@@ -334,10 +334,14 @@ void Engine::DrawGUI() {
                 0, 0);
         }
 
+        pPrimaryWindow->DrawText(pFontArrus, 300, 0, Color16(0, 0, 0),
+            StringPrintf("DrawCalls: %d", render->drawcalls), 0, 0, 0);
+        render->drawcalls = 0;
+
+
         int debug_info_offset = 0;
         if (uCurrentlyLoadedLevelType == LEVEL_Indoor) {
-            int sector_id = pIndoor->GetSector(
-                pParty->vPosition.x, pParty->vPosition.y, pParty->vPosition.z);
+            int sector_id = pIndoor->GetSector(pParty->vPosition.x, pParty->vPosition.y, pParty->vPosition.z);
             pPrimaryWindow->DrawText(
                 pFontArrus, 16, debug_info_offset = 16, Color16(255, 255, 255),
                 StringPrintf("Party Sector ID:        %u/%u\n", sector_id,
@@ -358,7 +362,7 @@ void Engine::DrawGUI() {
                 pParty->vPosition.x, pParty->vPosition.y, pParty->vPosition.z);
             int floor_level = BLV_GetFloorLevel(
                 pParty->vPosition.x, pParty->vPosition.y,
-                pParty->vPosition.z + 40, sector_id, &uFaceID);
+                pParty->vPosition.z/* + 40*/, sector_id, &uFaceID);
             floor_level_str = StringPrintf(
                 "BLV_GetFloorLevel: %d   face_id %d\n", floor_level, uFaceID);
         } else if (uCurrentlyLoadedLevelType == LEVEL_Outdoor) {
@@ -723,7 +727,7 @@ void Engine::OutlineSelection() {
     if (object_info) {
         switch (object_info->object_type) {
             case VisObjectType_Sprite: {
-                log->Warning(L"Sprite outline currently unsupported");
+                log->Warning("Sprite outline currently unsupported");
                 return;
             }
 
@@ -910,7 +914,7 @@ bool Engine::MM7_Initialize(const std::string &mm7_path) {
         !config->RunInWindow());
 
     if (!render) {
-        log->Warning(L"Render creation failed");
+        log->Warning("Render creation failed");
         return false;
     } else {
         window = OSWindowFactory().Create(
@@ -919,7 +923,7 @@ bool Engine::MM7_Initialize(const std::string &mm7_path) {
             render->config->render_height);
 
         if (!render->Initialize(window)) {
-            log->Warning(L"Render failed to initialize");
+            log->Warning("Render failed to initialize");
             return false;
         }
     }
@@ -1136,7 +1140,7 @@ const char *FindMm7Directory(char *mm7_path) {
         if (const char *path = std::getenv("WOMM_PATH_OVERRIDE")) {
             strcpy(mm7_path, path);
             mm7_installation_found = true;
-            logger->Info(L"MM7 Custom Folder (ENV path override)");
+            logger->Info("MM7 Custom Folder (ENV path override)");
         }
     }
 
@@ -1147,7 +1151,7 @@ const char *FindMm7Directory(char *mm7_path) {
             mm7_path, 2048);
 
         if (mm7_installation_found) {
-            logger->Info(L"Standard MM7 installation found");
+            logger->Info("Standard MM7 installation found");
         }
     }
 
@@ -1158,7 +1162,7 @@ const char *FindMm7Directory(char *mm7_path) {
             mm7_path, 2048);
 
         if (mm7_installation_found) {
-            logger->Info(L"GoG MM7 installation found");
+            logger->Info("GoG MM7 installation found");
         }
     }
 
@@ -1169,16 +1173,16 @@ const char *FindMm7Directory(char *mm7_path) {
             mm7_path, 2048);
 
         if (mm7_installation_found) {
-            logger->Info(L"GoG MM7 2018 build installation found");
+            logger->Info("GoG MM7 2018 build installation found");
         }
     }
 
     // Hack path fix - if everything else fails, set your path here.
     if (!mm7_installation_found) {
-        __debugbreak();
+        // __debugbreak();
         mm7_installation_found = 1;
         strcpy(mm7_path, "E:/Programs/GOG Galaxy/Games/Might and Magic 7");
-        logger->Info(L"Hack Path MM7 installation found");
+        logger->Info("Hack Path MM7 installation found");
     }
 
     return mm7_path;
@@ -1191,7 +1195,7 @@ void Engine::Initialize() {
     SetDataPath(mm7_path);
 
     if (!MM7_Initialize(std::string(mm7_path))) {
-        log->Warning(L"MM7_Initialize: failed");
+        log->Warning("MM7_Initialize: failed");
         if (engine != nullptr) {
             engine->Deinitialize();
         }
@@ -2256,7 +2260,7 @@ void LoadLevel_InitializeLevelStr() {
     int prev_string_offset;
 
     if (sizeof(pLevelStrOffsets) != 2000)
-        logger->Warning(L"pLevelStrOffsets: deserialization warning");
+        logger->Warning("pLevelStrOffsets: deserialization warning");
     memset(pLevelStrOffsets.data(), 0, 2000);
 
     max_string_length = 0;

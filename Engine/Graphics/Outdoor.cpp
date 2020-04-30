@@ -254,7 +254,7 @@ bool OutdoorLocation::Initialize(const String &filename, int days_played,
         pSpriteFrameTable->ResetSomeSpriteFlags();
 
         if (!this->Load(filename, days_played, respawn_interval_days, thisa)) {
-            logger->Warning(L"Couldn't Load Map!");
+            logger->Warning("Couldn't Load Map!");
             CreateDebugLocation();
         }
 
@@ -467,7 +467,7 @@ int OutdoorLocation::GetNumFoodRequiredToRestInCurrentPos(int x, int y, int z) {
             return 1;
         case Tileset_Snow:  // на снегу
             return 3;
-        case Tilset_Desert:  // на песке
+        case Tileset_Desert:  // на песке
             return 5;
         case Tileset_CooledLava:
         case Tileset_Dirt:  // на грязи
@@ -922,7 +922,7 @@ void OutdoorLocation::CreateDebugLocation() {
     free(this->pOMAP);
     this->pOMAP = (unsigned int *)malloc(0x10000);
     if (this->pOMAP == nullptr) {
-        log->Warning(L"Malloc error - pOMAP");
+        log->Warning("Malloc error - pOMAP");
         __debugbreak();
     } else {
         memset(this->pOMAP, 0, 0x10000);
@@ -933,7 +933,7 @@ void OutdoorLocation::CreateDebugLocation() {
     free(this->pFaceIDLIST);
     this->pFaceIDLIST = (unsigned __int16 *)malloc(2);
     if (this->pFaceIDLIST == nullptr) {
-        logger->Warning(L"Malloc fail - pfaceidlist");
+        logger->Warning("Malloc fail - pfaceidlist");
         __debugbreak();
     } else {
         this->pFaceIDLIST[0] = 0;
@@ -1083,7 +1083,7 @@ bool OutdoorLocation::Load(const String &filename, int days_played,
     // ******************Decorations**********************//
     memcpy(&uNumLevelDecorations, pSrc, 4);
     // uSourceLen = (char *)uSourceLen + 4;
-    if (uNumLevelDecorations > 3000) logger->Warning(L"Can't load file! Too many decorations");
+    if (uNumLevelDecorations > 3000) logger->Warning("Can't load file! Too many decorations");
 
     assert(sizeof(LevelDecoration) == 32);
     // pFilename = (char *)(32 * uNumLevelDecorations);
@@ -1246,7 +1246,7 @@ bool OutdoorLocation::Load(const String &filename, int days_played,
     pGameLoadingUI_ProgressBar->Progress();  //прогресс загрузки
 
     memcpy(&uNumActors, pSrc, 4);
-    if (uNumActors > 500) logger->Warning(L"Can't load file!");
+    if (uNumActors > 500) logger->Warning("Can't load file!");
 
     pGameLoadingUI_ProgressBar->Progress();  //прогресс загрузки
 
@@ -1337,7 +1337,7 @@ bool OutdoorLocation::Load(const String &filename, int days_played,
                 //            pSoundList->LoadSound(SOUND_RunSnow, 0);  //по
                 //            снегу pSoundList->LoadSound(SOUND_WalkSnow, 0);
                 break;
-            case Tilset_Desert:
+            case Tileset_Desert:
                 //            pSoundList->LoadSound(SOUND_RunDesert, 0);  //по
                 //            пустыне pSoundList->LoadSound(SOUND_WalkDesert,
                 //            0);
@@ -2075,7 +2075,7 @@ void ODM_GetTerrainNormalAt(int pos_x, int pos_z, Vec3_int_ *out) {
         side1_dx = 0.0;  // (double)(grid_pos_x1 - grid_pos_x1);
         side1_dz = (double)(grid_pos_z1 - grid_pos_z2);  //       z1 - z2 yes
         side1_dy = (double)(x1z1_y - x1z2_y);
-        // logger->Warning(L"%S %S %u\n", __FILE__, __FUNCTION__, __LINE__);
+        // logger->Warning("%S %S %u\n", __FILE__, __FUNCTION__, __LINE__);
         /*       |\
            side1 |  \
                  |____\
@@ -2702,6 +2702,7 @@ void ODM_ProcessPartyActions() {
                 break;
 
             case PARTY_Jump:  //прыжок
+                pAudioPlayer->PlaySound(SOUND_batllest, 0, 0, -1, 0, 0);
                 if ((!partyAtHighSlope || bmodel_standing_on_pid) &&
                     !hovering && pParty->field_24 && !(pParty->uFlags & 4) &&
                     !(pParty->uFlags & 0x200)) {
@@ -2809,31 +2810,31 @@ void ODM_ProcessPartyActions() {
         v2 = 0;
     }
     //--(столкновения)-------------------------------------------------------------------
-    stru_721530.field_84 = -1;
-    stru_721530.field_70 = 0;
-    stru_721530.prolly_normal_d = pParty->field_14_radius;
-    stru_721530.field_8_radius = pParty->field_14_radius / 2;
-    stru_721530.field_0 = 1;
-    stru_721530.height = pParty->uPartyHeight - 32;
+    _actor_collision_struct.field_84 = -1;
+    _actor_collision_struct.field_70 = 0;
+    _actor_collision_struct.prolly_normal_d = pParty->field_14_radius;
+    _actor_collision_struct.field_8_radius = pParty->field_14_radius / 2;
+    _actor_collision_struct.field_0 = 1;
+    _actor_collision_struct.height = pParty->uPartyHeight - 32;
     for (uint i = 0; i < 100; i++) {
-        stru_721530.position.x = pX;
-        stru_721530.position.y = pY;
-        stru_721530.position.z = stru_721530.height + party_new_Z + 1;
+        _actor_collision_struct.position.x = pX;
+        _actor_collision_struct.position.y = pY;
+        _actor_collision_struct.position.z = _actor_collision_struct.height + party_new_Z + 1;
 
-        stru_721530.normal.x = pX;
-        stru_721530.normal.y = pY;
-        stru_721530.normal.z = stru_721530.prolly_normal_d + party_new_Z + 1;
+        _actor_collision_struct.normal.x = pX;
+        _actor_collision_struct.normal.y = pY;
+        _actor_collision_struct.normal.z = _actor_collision_struct.prolly_normal_d + party_new_Z + 1;
 
-        stru_721530.velocity.x = v2;
-        stru_721530.velocity.y = v128;
-        stru_721530.velocity.z = fall_speed;
+        _actor_collision_struct.velocity.x = v2;
+        _actor_collision_struct.velocity.y = v128;
+        _actor_collision_struct.velocity.z = fall_speed;
 
-        stru_721530.uSectorID = 0;
+        _actor_collision_struct.uSectorID = 0;
         v36 = 0;
         if (pParty->bTurnBasedModeOn && pTurnEngine->turn_stage == TE_MOVEMENT) {
             v36 = 13312;
         }
-        if (stru_721530.CalcMovementExtents(v36)) break;
+        if (_actor_collision_struct.CalcMovementExtents(v36)) break;
         _46E889_collide_against_bmodels(1);
         // v37 = WorldPosToGridCellZ(pParty->vPosition.y);
         // v38 = WorldPosToGridCellX(pParty->vPosition.x);
@@ -2843,18 +2844,18 @@ void ODM_ProcessPartyActions() {
         _46ED8A_collide_against_sprite_objects(4);
         for (uint actor_id = 0; actor_id < (signed int)uNumActors; ++actor_id)
             Actor::_46DF1A_collide_against_actor(actor_id, 0);
-        if (stru_721530.field_7C >= stru_721530.field_6C) {
-            _angle_x = stru_721530.normal2.x;
-            _angle_y = stru_721530.normal2.y;
-            v40 = stru_721530.normal2.z - stru_721530.prolly_normal_d - 1;
+        if (_actor_collision_struct.field_7C >= _actor_collision_struct.field_6C) {
+            _angle_x = _actor_collision_struct.normal2.x;
+            _angle_y = _actor_collision_struct.normal2.y;
+            v40 = _actor_collision_struct.normal2.z - _actor_collision_struct.prolly_normal_d - 1;
         } else {
-            _angle_x = pX + fixpoint_mul(stru_721530.field_7C,
-                                         stru_721530.direction.x);
-            _angle_y = pY + fixpoint_mul(stru_721530.field_7C,
-                                         stru_721530.direction.y);
-            // pModel = (BSPModel *)fixpoint_mul(stru_721530.field_7C,
-            // stru_721530.direction.z);
-            v40 = fixpoint_mul(stru_721530.field_7C, stru_721530.direction.z) +
+            _angle_x = pX + fixpoint_mul(_actor_collision_struct.field_7C,
+                                         _actor_collision_struct.direction.x);
+            _angle_y = pY + fixpoint_mul(_actor_collision_struct.field_7C,
+                                         _actor_collision_struct.direction.y);
+            // pModel = (BSPModel *)fixpoint_mul(_actor_collision_struct.field_7C,
+            // _actor_collision_struct.direction.z);
+            v40 = fixpoint_mul(_actor_collision_struct.field_7C, _actor_collision_struct.direction.z) +
                   party_new_Z;
         }
         v122 = v40;
@@ -2894,32 +2895,32 @@ void ODM_ProcessPartyActions() {
                 }
             }
         }
-        if (stru_721530.field_7C >= stru_721530.field_6C) {
+        if (_actor_collision_struct.field_7C >= _actor_collision_struct.field_6C) {
             if (!is_not_on_bmodel) {
-                pX = stru_721530.normal2.x;
-                pY = stru_721530.normal2.y;
+                pX = _actor_collision_struct.normal2.x;
+                pY = _actor_collision_struct.normal2.y;
             }
             party_new_Z =
-                stru_721530.normal2.z - stru_721530.prolly_normal_d - 1;
+                _actor_collision_struct.normal2.z - _actor_collision_struct.prolly_normal_d - 1;
             break;
         }
-        stru_721530.field_70 += stru_721530.field_7C;
+        _actor_collision_struct.field_70 += _actor_collision_struct.field_7C;
         pX = _angle_x;
         pY = _angle_y;
-        v45 = stru_721530.pid;
+        v45 = _actor_collision_struct.pid;
         party_new_Z = v40;
 
-        if (PID_TYPE(stru_721530.pid) == OBJECT_Actor) {
+        if (PID_TYPE(_actor_collision_struct.pid) == OBJECT_Actor) {
             if (pParty->Invisible())
                 pParty->pPartyBuffs[PARTY_BUFF_INVISIBILITY].Reset();
             viewparams->bRedrawGameUI = true;
         }
 
-        if (PID_TYPE(stru_721530.pid) == OBJECT_Decoration) {
+        if (PID_TYPE(_actor_collision_struct.pid) == OBJECT_Decoration) {
             v129 = stru_5C6E00->Atan2(
-                _angle_x - pLevelDecorations[(signed int)stru_721530.pid >> 3]
+                _angle_x - pLevelDecorations[(signed int)_actor_collision_struct.pid >> 3]
                                .vPosition.x,
-                _angle_y - pLevelDecorations[(signed int)stru_721530.pid >> 3]
+                _angle_y - pLevelDecorations[(signed int)_actor_collision_struct.pid >> 3]
                                .vPosition.y);
             v2 = fixpoint_mul(stru_5C6E00->Cos(v129),
                               integer_sqrt(v2 * v2 + v128 * v128));
@@ -2929,11 +2930,11 @@ void ODM_ProcessPartyActions() {
                                 integer_sqrt(v2 * v2 + v128 * v128));
         }
 
-        if (PID_TYPE(stru_721530.pid) == OBJECT_BModel) {
+        if (PID_TYPE(_actor_collision_struct.pid) == OBJECT_BModel) {
             pParty->bFlying = false;
-            pModel = &pOutdoor->pBModels[(signed int)stru_721530.pid >> 9];
+            pModel = &pOutdoor->pBModels[(signed int)_actor_collision_struct.pid >> 9];
             pODMFace =
-                &pModel->pFaces[((signed int)stru_721530.pid >> 3) & 0x3F];
+                &pModel->pFaces[((signed int)_actor_collision_struct.pid >> 3) & 0x3F];
             v48 = pODMFace->pBoundingBox.z2 - pODMFace->pBoundingBox.z1;
             v129 = v48 <= 32;
             v119 = pODMFace->pFacePlane.vNormal.z < 46378;
@@ -2962,8 +2963,8 @@ void ODM_ProcessPartyActions() {
                            fall_speed * pODMFace->pFacePlane.vNormal.z +
                            v2 * pODMFace->pFacePlane.vNormal.x) >>
                        16;
-                if ((stru_721530.speed >> 3) > v118)
-                    v118 = stru_721530.speed >> 3;
+                if ((_actor_collision_struct.speed >> 3) > v118)
+                    v118 = _actor_collision_struct.speed >> 3;
                 v2 += fixpoint_mul(v118, pODMFace->pFacePlane.vNormal.x);
                 v128 += fixpoint_mul(v118, pODMFace->pFacePlane.vNormal.y);
                 v54 = 0;
@@ -2971,7 +2972,7 @@ void ODM_ProcessPartyActions() {
                     v54 = fixpoint_mul(v118, pODMFace->pFacePlane.vNormal.z);
                 pParty->uFallSpeed += v54;
                 v55 =
-                    stru_721530.prolly_normal_d -
+                    _actor_collision_struct.prolly_normal_d -
                     ((signed int)(pODMFace->pFacePlane.dist +
                                   v122 * pODMFace->pFacePlane.vNormal.z +
                                   _angle_y * pODMFace->pFacePlane.vNormal.y +
@@ -2987,9 +2988,9 @@ void ODM_ProcessPartyActions() {
                             v122 +
                             fixpoint_mul(pODMFace->pFacePlane.vNormal.z, v55);
                 }
-                if (pParty->floor_face_pid != stru_721530.pid &&
+                if (pParty->floor_face_pid != _actor_collision_struct.pid &&
                     pODMFace->Pressure_Plate()) {
-                    pParty->floor_face_pid = stru_721530.pid;
+                    pParty->floor_face_pid = _actor_collision_struct.pid;
                     trigger_id = pODMFace->sCogTriggeredID;  //
                 }
             }
@@ -2998,16 +2999,16 @@ void ODM_ProcessPartyActions() {
                            fall_speed * pODMFace->pFacePlane.vNormal.z +
                            v2 * pODMFace->pFacePlane.vNormal.x) >>
                        16;
-                if ((stru_721530.speed >> 3) > v118)
-                    v118 = stru_721530.speed >> 3;
+                if ((_actor_collision_struct.speed >> 3) > v118)
+                    v118 = _actor_collision_struct.speed >> 3;
                 v2 += fixpoint_mul(v118, pODMFace->pFacePlane.vNormal.x);
                 v128 += fixpoint_mul(v118, pODMFace->pFacePlane.vNormal.y);
                 fall_speed +=
                     fixpoint_mul(v118, pODMFace->pFacePlane.vNormal.z);
                 if (v2 * v2 + v128 * v128 >= 400) {
-                    if (pParty->floor_face_pid != stru_721530.pid &&
+                    if (pParty->floor_face_pid != _actor_collision_struct.pid &&
                         pODMFace->Pressure_Plate()) {
-                        pParty->floor_face_pid = stru_721530.pid;
+                        pParty->floor_face_pid = _actor_collision_struct.pid;
                         trigger_id = pODMFace->sCogTriggeredID;  //
                     }
                 } else {
@@ -3511,28 +3512,28 @@ void UpdateActors_ODM() {
             Act_Radius = 40;
 
 
-        stru_721530.field_0 = 1;
-        stru_721530.field_84 = -1;
-        stru_721530.field_8_radius = Act_Radius;
-        stru_721530.prolly_normal_d = Act_Radius;
-        stru_721530.height = pActors[Actor_ITR].uActorHeight;
-        stru_721530.field_70 = 0;
+        _actor_collision_struct.field_0 = 1;
+        _actor_collision_struct.field_84 = -1;
+        _actor_collision_struct.field_8_radius = Act_Radius;
+        _actor_collision_struct.prolly_normal_d = Act_Radius;
+        _actor_collision_struct.height = pActors[Actor_ITR].uActorHeight;
+        _actor_collision_struct.field_70 = 0;
 
         for (Model_On_PID = 0; Model_On_PID < 100; ++Model_On_PID) {
-            stru_721530.position.x = pActors[Actor_ITR].vPosition.x;
-            stru_721530.normal.x = stru_721530.position.x;
-            stru_721530.position.y = pActors[Actor_ITR].vPosition.y;
-            stru_721530.normal.y = stru_721530.position.y;
+            _actor_collision_struct.position.x = pActors[Actor_ITR].vPosition.x;
+            _actor_collision_struct.normal.x = _actor_collision_struct.position.x;
+            _actor_collision_struct.position.y = pActors[Actor_ITR].vPosition.y;
+            _actor_collision_struct.normal.y = _actor_collision_struct.position.y;
             int Act_Z_Pos = pActors[Actor_ITR].vPosition.z;
-            stru_721530.normal.z = Act_Z_Pos + Act_Radius + 1;
-            stru_721530.position.z = Act_Z_Pos - Act_Radius + stru_721530.height - 1;
-            if (stru_721530.position.z < stru_721530.normal.z)
-                stru_721530.position.z = Act_Z_Pos + Act_Radius + 1;
-            stru_721530.velocity.x = pActors[Actor_ITR].vVelocity.x;
-            stru_721530.uSectorID = 0;
-            stru_721530.velocity.y = pActors[Actor_ITR].vVelocity.y;
-            stru_721530.velocity.z = pActors[Actor_ITR].vVelocity.z;
-            if (stru_721530.CalcMovementExtents(0)) break;
+            _actor_collision_struct.normal.z = Act_Z_Pos + Act_Radius + 1;
+            _actor_collision_struct.position.z = Act_Z_Pos - Act_Radius + _actor_collision_struct.height - 1;
+            if (_actor_collision_struct.position.z < _actor_collision_struct.normal.z)
+                _actor_collision_struct.position.z = Act_Z_Pos + Act_Radius + 1;
+            _actor_collision_struct.velocity.x = pActors[Actor_ITR].vVelocity.x;
+            _actor_collision_struct.uSectorID = 0;
+            _actor_collision_struct.velocity.y = pActors[Actor_ITR].vVelocity.y;
+            _actor_collision_struct.velocity.z = pActors[Actor_ITR].vVelocity.z;
+            if (_actor_collision_struct.CalcMovementExtents(0)) break;
             _46E889_collide_against_bmodels(1);
             _46E26D_collide_against_sprites(WorldPosToGridCellX(pActors[Actor_ITR].vPosition.x), WorldPosToGridCellZ(pActors[Actor_ITR].vPosition.y));
             _46EF01_collision_chech_player(0);
@@ -3545,16 +3546,16 @@ void UpdateActors_ODM() {
                     ++i;
             }
             int v71 = i > 1;
-            if (stru_721530.field_7C < stru_721530.field_6C)
+            if (_actor_collision_struct.field_7C < _actor_collision_struct.field_6C)
                 Slope_High =
-                    fixpoint_mul(stru_721530.field_7C, stru_721530.direction.z);
+                    fixpoint_mul(_actor_collision_struct.field_7C, _actor_collision_struct.direction.z);
             // v34 = 0;
-            int v35 = stru_721530.normal2.z - stru_721530.prolly_normal_d - 1;
+            int v35 = _actor_collision_struct.normal2.z - _actor_collision_struct.prolly_normal_d - 1;
             bool bOnWater = false;
             int Splash_Model_On;
             int Splash_Floor = ODM_GetFloorLevel(
-                stru_721530.normal2.x, stru_721530.normal2.y,
-                stru_721530.normal2.z - stru_721530.prolly_normal_d - 1,
+                _actor_collision_struct.normal2.x, _actor_collision_struct.normal2.y,
+                _actor_collision_struct.normal2.z - _actor_collision_struct.prolly_normal_d - 1,
                 pActors[Actor_ITR].uActorHeight, &bOnWater, &Splash_Model_On, 0);
             if (uIsOnWater) {
                 if (v35 < Splash_Floor + 60) {
@@ -3574,28 +3575,28 @@ void UpdateActors_ODM() {
                     }
                 }
             }
-            if (stru_721530.field_7C >= stru_721530.field_6C) {
-                pActors[Actor_ITR].vPosition.x = (short)stru_721530.normal2.x;
-                pActors[Actor_ITR].vPosition.y = (short)stru_721530.normal2.y;
-                pActors[Actor_ITR].vPosition.z = (short)stru_721530.normal2.z -
-                                           (short)stru_721530.prolly_normal_d -
+            if (_actor_collision_struct.field_7C >= _actor_collision_struct.field_6C) {
+                pActors[Actor_ITR].vPosition.x = (short)_actor_collision_struct.normal2.x;
+                pActors[Actor_ITR].vPosition.y = (short)_actor_collision_struct.normal2.y;
+                pActors[Actor_ITR].vPosition.z = (short)_actor_collision_struct.normal2.z -
+                                           (short)_actor_collision_struct.prolly_normal_d -
                                            1;
                 break;
             }
 
             pActors[Actor_ITR].vPosition.x +=
-                fixpoint_mul(stru_721530.field_7C, stru_721530.direction.x);
+                fixpoint_mul(_actor_collision_struct.field_7C, _actor_collision_struct.direction.x);
 
             pActors[Actor_ITR].vPosition.y +=
-                fixpoint_mul(stru_721530.field_7C, stru_721530.direction.y);
+                fixpoint_mul(_actor_collision_struct.field_7C, _actor_collision_struct.direction.y);
 
             pActors[Actor_ITR].vPosition.z +=
-                fixpoint_mul(stru_721530.field_7C, stru_721530.direction.z);
-            stru_721530.field_70 += stru_721530.field_7C;
-            unsigned int v39 = PID_ID(stru_721530.pid);
+                fixpoint_mul(_actor_collision_struct.field_7C, _actor_collision_struct.direction.z);
+            _actor_collision_struct.field_70 += _actor_collision_struct.field_7C;
+            unsigned int v39 = PID_ID(_actor_collision_struct.pid);
             int Angle_To_Decor;
             signed int Coll_Speed;
-            switch (PID_TYPE(stru_721530.pid)) {
+            switch (PID_TYPE(_actor_collision_struct.pid)) {
                 case OBJECT_Actor:
                     if (pTurnEngine->turn_stage != TE_ATTACK && pTurnEngine->turn_stage != TE_MOVEMENT ||
                         !pParty->bTurnBasedModeOn) {
@@ -3603,7 +3604,7 @@ void UpdateActors_ODM() {
                         // v34 = 0;
                         if (pActors[Actor_ITR].pMonsterInfo.uHostilityType) {
                             if (v71 == 0)
-                                Actor::AI_Flee(Actor_ITR, stru_721530.pid, 0,
+                                Actor::AI_Flee(Actor_ITR, _actor_collision_struct.pid, 0,
                                                (AIDirection *)0);
                             else
                                 Actor::AI_StandOrBored(Actor_ITR, 4, 0,
@@ -3612,17 +3613,17 @@ void UpdateActors_ODM() {
                             Actor::AI_StandOrBored(Actor_ITR, 4, 0, (AIDirection *)0);
                         } else if (pActors[v39].pMonsterInfo.uHostilityType ==
                             MonsterInfo::Hostility_Friendly) {
-                            Actor::AI_Flee(Actor_ITR, stru_721530.pid, 0,
+                            Actor::AI_Flee(Actor_ITR, _actor_collision_struct.pid, 0,
                                 (AIDirection *)0);
                         } else {
-                            Actor::AI_FaceObject(Actor_ITR, stru_721530.pid, 0,
+                            Actor::AI_FaceObject(Actor_ITR, _actor_collision_struct.pid, 0,
                                 (AIDirection *)0);
                         }
                     }
                     break;
                 case OBJECT_Player:
                     if (!pActors[Actor_ITR].GetActorsRelation(0)) {
-                        Actor::AI_FaceObject(Actor_ITR, stru_721530.pid, 0,
+                        Actor::AI_FaceObject(Actor_ITR, _actor_collision_struct.pid, 0,
                                              (AIDirection *)0);
                         break;
                     }
@@ -3651,13 +3652,13 @@ void UpdateActors_ODM() {
                         fixpoint_mul(stru_5C6E00->Sin(Angle_To_Decor), Coll_Speed);
                     break;
                 case OBJECT_BModel:
-                    ODMFace * face = &pOutdoor->pBModels[stru_721530.pid >> 9]
+                    ODMFace * face = &pOutdoor->pBModels[_actor_collision_struct.pid >> 9]
                                 .pFaces[v39 & 0x3F];
                     if (!face->Ethereal()) {
                         if (face->uPolygonType == 3) {
                             pActors[Actor_ITR].vVelocity.z = 0;
                             pActors[Actor_ITR].vPosition.z =
-                                (short)pOutdoor->pBModels[stru_721530.pid >> 9]
+                                (short)pOutdoor->pBModels[_actor_collision_struct.pid >> 9]
                                     .pVertices.pVertices[face->pVertexIDs[0]]
                                     .z +
                                 1;
@@ -3677,8 +3678,8 @@ void UpdateActors_ODM() {
                                        face->pFacePlane.vNormal.x *
                                            pActors[Actor_ITR].vVelocity.x) >>
                                    16;
-                            if ((stru_721530.speed >> 3) > v72b)
-                                v72b = stru_721530.speed >> 3;
+                            if ((_actor_collision_struct.speed >> 3) > v72b)
+                                v72b = _actor_collision_struct.speed >> 3;
 
                             pActors[Actor_ITR].vVelocity.x +=
                                 fixpoint_mul(v72b, face->pFacePlane.vNormal.x);
@@ -3687,7 +3688,7 @@ void UpdateActors_ODM() {
                             pActors[Actor_ITR].vVelocity.z +=
                                 fixpoint_mul(v72b, face->pFacePlane.vNormal.z);
                             if (face->uPolygonType != 4) {
-                                int v46 = stru_721530.prolly_normal_d -
+                                int v46 = _actor_collision_struct.prolly_normal_d -
                                       ((face->pFacePlane.dist +
                                         face->pFacePlane.vNormal.x *
                                             pActors[Actor_ITR].vPosition.x +
@@ -3720,7 +3721,7 @@ void UpdateActors_ODM() {
             pActors[Actor_ITR].vVelocity.z =
                 fixpoint_mul(58500, pActors[Actor_ITR].vVelocity.z);
 
-            Act_Radius = stru_721530.prolly_normal_d;
+            Act_Radius = _actor_collision_struct.prolly_normal_d;
         }
 
         // WATER TILE CHECKING
@@ -3777,7 +3778,7 @@ void UpdateActors_ODM() {
                 if (!Tile_Test_Land) {
                     // no land found so drowning damage
                     // pActors[Actor_ITR].sCurrentHP -= 1;
-                    // logger->Warning(L"DROWNING");
+                    // logger->Warning("DROWNING");
                 }
             }
         }
@@ -3877,8 +3878,8 @@ unsigned int GetLevelFogColor() {
         if (pWeather->bNight) {  // night-time fog
             if (false) {
                 logger->Warning(
-                    L"decompilation can be inaccurate, please send savegame to "
-                    L"Nomad");
+                    "decompilation can be inaccurate, please send savegame to "
+                    "Nomad");
                 __debugbreak();
             }
             int v2 = -(pWeather->bNight != 1);

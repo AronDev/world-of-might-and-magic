@@ -117,7 +117,6 @@ void AudioPlayer::MusicPlayTrack(MusicID eTrack) {
         if (pCurrentMusicTrack) {
             pCurrentMusicTrack->Stop();
         }
-        currentMusicTrack = -1;
 
         String file_path = StringPrintf("Music%s%d.mp3", OS_GetDirSeparator().c_str(), eTrack);
         file_path = MakeDataPath(file_path.c_str());
@@ -145,6 +144,7 @@ void AudioPlayer::MusicStop() {
 
     pCurrentMusicTrack->Stop();
     pCurrentMusicTrack = nullptr;
+    currentMusicTrack = 0;
 }
 
 void AudioPlayer::MusicPause() {

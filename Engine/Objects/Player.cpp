@@ -7896,7 +7896,6 @@ void Player::PlaySound(PlayerSpeech speech,
             if (numberOfSubvariants > 0) {
                 pickedSoundID = rand() % numberOfSubvariants +
                                 2 * (pickedVariant + 50 * uVoiceID) + 4998;
-                pAudioPlayer->StopAll(0); // for testing
                 pAudioPlayer->PlaySound(
                     (SoundID)pickedSoundID,
                     PID(OBJECT_Player, uActiveCharacter + 39), 0, -1, 0, 0);

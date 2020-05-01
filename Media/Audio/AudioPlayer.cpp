@@ -191,6 +191,10 @@ void AudioPlayer::StopAll(int sample_id) {
     if (!bPlayerReady) {
         return;
     }
+    for (auto const& ms : mapSounds) {
+        if (!ms.second.sample->IsValid()) return;
+        ms.second.sample->Stop();
+    }
 }
 
 void AudioPlayer::PlaySound(SoundID eSoundID, int pid, unsigned int uNumRepeats, int source_x, int source_y, int sound_data_id) {

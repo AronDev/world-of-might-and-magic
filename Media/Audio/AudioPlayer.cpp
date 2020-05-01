@@ -273,10 +273,8 @@ void AudioPlayer::PlaySound(SoundID eSoundID, int pid, unsigned int uNumRepeats,
             }
             case OBJECT_Player: {
                 si.sample->SetVolume((2.f * pSoundVolumeLevels[engine->config->voice_level]));
-                if (object_id == 5) {
-                    if (pLastAudioSample != nullptr) {
-                        pLastAudioSample->Stop();
-                    }
+                if (pLastAudioSample != nullptr) {
+                    pLastAudioSample->Stop();
                 }
                 si.sample->Play();
                // return;
@@ -334,7 +332,7 @@ void AudioPlayer::PlaySound(SoundID eSoundID, int pid, unsigned int uNumRepeats,
                 // assert(false);
                 break;
         }
-        pLastAudioSample = si.sample;  // TODO: temporary fix formultiple voiceprev/voicenext sound
+        pLastAudioSample = si.sample;  // TODO: temporary fix for multiple voiceprev/voicenext sound
     }
     // logger->Warning(L"-------END Trying to load sound \"%i\"--------", eSoundID);
     return;

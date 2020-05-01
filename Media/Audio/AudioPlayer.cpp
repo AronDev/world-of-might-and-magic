@@ -188,6 +188,7 @@ void AudioPlayer::SetMasterVolume(int level) {
 }
 
 void AudioPlayer::StopAll(int sample_id) {
+    // There is only a single mixer channel.
     if (!bPlayerReady) return;
     for (auto const& ms : mapSounds) {
         if (ms.second.sample == nullptr) continue;
@@ -272,7 +273,11 @@ void AudioPlayer::PlaySound(SoundID eSoundID, int pid, unsigned int uNumRepeats,
             }
             case OBJECT_Player: {
                 si.sample->SetVolume((2.f * pSoundVolumeLevels[engine->config->voice_level]));
-                if (object_id == 5) si.sample->Stop();
+                if (object_id == 5) {
+                    if (pLastAudioSample != nullptr) {
+                        pLastAudioSample->Stop();
+                    }
+                }
                 si.sample->Play();
                // return;
                 break;
@@ -329,8 +334,8 @@ void AudioPlayer::PlaySound(SoundID eSoundID, int pid, unsigned int uNumRepeats,
                 // assert(false);
                 break;
         }
+        pLastAudioSample = si.sample;  // TODO: temporary fix formultiple voiceprev/voicenext sound
     }
-
     // logger->Warning(L"-------END Trying to load sound \"%i\"--------", eSoundID);
     return;
 }

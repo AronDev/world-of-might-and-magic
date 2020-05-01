@@ -95,7 +95,6 @@ void CreateParty_EventLoop() {
 
             new OnButtonClick(pButton->uX, pButton->uY, 0, 0, pButton,
                 String(), false);
-            pAudioPlayer->StopAll(0);
             pAudioPlayer->PlaySound(SOUND_SelectingANewCharacter, 0, 0, -1, 0, 0);
             pParty->pPlayers[param].PlaySound(SPEECH_PickMe, 0);
             break;
@@ -110,7 +109,6 @@ void CreateParty_EventLoop() {
             auto pButton = pCreationUI_BtnPressRight2[param];
             new OnButtonClick(pButton->uX, pButton->uY, 0, 0, pButton,
                 String(), false);
-            pAudioPlayer->StopAll(0);
             pAudioPlayer->PlaySound(SOUND_SelectingANewCharacter, 0, 0, -1, 0, 0);
             pParty->pPlayers[param].PlaySound(SPEECH_PickMe, 0);
             break;

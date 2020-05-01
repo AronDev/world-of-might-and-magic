@@ -149,6 +149,7 @@ class AudioPlayer {
     int currentMusicTrack;
     float uMasterVolume;
     PAudioTrack pCurrentMusicTrack;
+    PAudioSample pLastAudioSample;
     std::ifstream fAudioSnd;
     std::map<String, SoundHeader> mSoundHeaders;
 };

@@ -1181,7 +1181,7 @@ const char *FindMm7Directory(char *mm7_path) {
     if (!mm7_installation_found) {
         // __debugbreak();
         mm7_installation_found = 1;
-        strcpy(mm7_path, "D:/Program Files (x86)/GOG Galaxy/Games/Might and Magic 7");
+        strcpy(mm7_path, "E:/Programs/GOG Galaxy/Games/Might and Magic 7");
         logger->Info("Hack Path MM7 installation found");
     }
 

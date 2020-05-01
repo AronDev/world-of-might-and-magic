@@ -188,11 +188,9 @@ void AudioPlayer::SetMasterVolume(int level) {
 }
 
 void AudioPlayer::StopAll(int sample_id) {
-    if (!bPlayerReady) {
-        return;
-    }
+    if (!bPlayerReady) return;
     for (auto const& ms : mapSounds) {
-        if (!ms.second.sample->IsValid()) return;
+        if (ms.second.sample == nullptr) continue;
         ms.second.sample->Stop();
     }
 }
